@@ -1,1 +1,1 @@
-404.php
+<?php echo "Error pagina no encontrada"; ?>

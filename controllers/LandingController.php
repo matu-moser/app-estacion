@@ -11,3 +11,4 @@ class LandingController
 
 $controller = new LandingController();
 $controller->index();
+

@@ -4,8 +4,7 @@ class DetalleController {
 
     public function index() {
 
-         $apiUrl = 
-"https://mattprofe.com.ar/proyectos/app-estacion/datos.php";
+         $apiUrl = "https://mattprofe.com.ar/proyectos/app-estacion/datos.php";
         // validar chipid
         if (!isset($_GET['chipid']) || empty($_GET['chipid'])) {
             echo "ChipID inválido";
