@@ -12,19 +12,24 @@ use PHPMailer\PHPMailer\Exception;
 class LoginController {
 
     public function index() {
-
-        // Si ya está logueado → ir a panel
-        if (isset($_SESSION['idUsuario'])) {
-            header("Location: index.php?page=panel");
-            exit();
-        }
-
         $error = '';
-        $email = trim($_POST['email'] ?? '');
-        $password = $_POST['password'] ?? '';
-        $chipid = $_POST['chipid'] ?? 'Z';
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'] ?? '';
+    $chipid = $_POST['chipid'] ?? 'Z';
 
-        $usuarioModel = new Usuario($GLOBALS['conn']);
+    $usuarioModel = new Usuario($GLOBALS['conn']);
+    // --- LOGIN ESPECIAL ADMIN ---
+if ($email === 'admin-estacion' && $password === 'admin1234') {
+    $_SESSION['idUsuario'] = 0; // ID ficticio
+    $_SESSION['email'] = 'admin-estacion';
+    $_SESSION['logged_in'] = true;
+    $_SESSION['is_admin'] = true;
+
+    // Redirige inmediatamente al panel de administrador
+    header("Location: index.php?page=administrator");
+    exit();
+}
+
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -52,7 +57,6 @@ class LoginController {
                     $_SESSION['idUsuario'] = $user['id'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['logged_in'] = true;
-                    $_SESSION['chipid'] = $chipid;
 
                     $this->enviarCorreoLogin($user['email'], $user['token']);
 

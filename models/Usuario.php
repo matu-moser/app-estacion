@@ -107,6 +107,33 @@ public function limpiarTokenYDesactivar($id) {
     $stmt->bind_param("s", $token);
     return $stmt->execute();
 }
+    public function contarUsuarios() {
+    $sql = "SELECT 
+                (SELECT COUNT(*) FROM usuariosAppEstacion) as usuarios, 
+                (SELECT COUNT(DISTINCT ip) FROM tracker) as clientes";
+    $result = $this->conn->query($sql);
+    return $result->fetch_assoc();
+}
+    public function obtenerClientesParaMapa() {
+    $sql = "SELECT ip, latitud, longitud, COUNT(*) AS accesos
+            FROM tracker
+            GROUP BY ip, latitud, longitud";
+    $result = $this->conn->query($sql);
+
+    $clientes = [];
+    while ($row = $result->fetch_assoc()) {
+        $clientes[] = $row;
+    }
+    return $clientes;
+}
+    public function guardarTracker($token, $ip, $latitud, $longitud, $pais, $navegador, $sistema) {
+    $stmt = $this->conn->prepare("
+        INSERT INTO tracker (token, ip, latitud, longitud, pais, navegador, sistema, add_date)
+        VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+    ");
+    $stmt->bind_param("sssssss", $token, $ip, $latitud, $longitud, $pais, $navegador, $sistema);
+    return $stmt->execute();
+}
 
 }
 ?>

@@ -1,11 +1,4 @@
 <?php
-
-// Si el usuario ya está logueado, lo redirigimos
-if (isset($_SESSION['idUsuario'])) {
-    header("Location: index.php?page=panel.php");
-    exit;
-}
-
 // Si viene un mensaje de error desde el process
 $error = $_GET['error'] ?? '';
 ?>
@@ -24,7 +17,7 @@ $error = $_GET['error'] ?? '';
 
     <form action="index.php?page=login" method="POST">
         <label>Email</label>
-        <input type="email" name="email" required>
+        <input type="text" name="email" required>
 
         <label>Contraseña</label>
         <input type="password" name="password" required>

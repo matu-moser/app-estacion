@@ -50,7 +50,15 @@ if ($page == "blocked") {
     $controller = new BlockedController();
     $controller->index($_GET['token']);
     exit;
-} 
+}
+
+if ($page === 'administrator') {
+    require_once 'controllers/AdministratorController.php';
+    $controller = new AdministratorController();
+    $controller->index();
+    exit;
+}
+
 /*
 --------------------------------------------------------
   ROUTER AUTOMÁTICO (FUNCIONA PARA TODAS LAS ESTACIONES)
